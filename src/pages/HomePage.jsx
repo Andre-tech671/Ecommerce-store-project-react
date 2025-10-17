@@ -5,10 +5,10 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import './HomePage.css';
 
-function HomePage() {
+function HomePage({cart}) {
 
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
+ 
 
 
   useEffect(() => {
@@ -17,10 +17,7 @@ function HomePage() {
       setProducts(response.data);
     });
 
-    axios.get('/api/cart-items')
-    .then((response)=>{
-      setCart(response.data);
-    });
+  
   }, []);
 
  
