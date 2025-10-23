@@ -10,6 +10,7 @@ function OrdersPage({cart, loadCart}) {
 
   const [orders, setOrders] = useState([]);
 
+
   useEffect(()=>{
     axios.get('/api/orders?expand=products')
     .then((response)=>{
