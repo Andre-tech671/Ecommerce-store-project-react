@@ -10,7 +10,7 @@ function Product({ product, loadCart }) {
     // Add the product to the cart
     await axios.post("/api/cart-items", {
       productId: product.id,
-      quantity: quantity,
+      quantity: quantity
     });
     // Reload cart items
     await loadCart();
