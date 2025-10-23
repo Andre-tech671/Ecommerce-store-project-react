@@ -6,7 +6,7 @@ import  { useState, useEffect, Fragment }  from 'react';
 import { formatMoney } from '../../utils/money';
 import './OrdersPage.css';
 
-function OrdersPage({cart}) {
+function OrdersPage({cart, loadCart}) {
 
   const [orders, setOrders] = useState([]);
 
@@ -24,7 +24,6 @@ function OrdersPage({cart}) {
   return (
     <>
 
-    <Header  cart={cart}/>
     <div className="header">
       <div className="left-section">
         <a href="/" className="header-link">
@@ -51,7 +50,7 @@ function OrdersPage({cart}) {
 
         <a className="cart-link header-link" href="/checkout">
           <img className="cart-icon" src="images/icons/cart-icon.png" />
-          <div className="cart-quantity">3</div>
+          <div className="cart-quantity">{cart.reduce((total, item) => total + item.quantity, 0)}</div>
           <div className="cart-text">Cart</div>
         </a>
       </div>
@@ -102,7 +101,13 @@ function OrdersPage({cart}) {
                           <div className="product-quantity">
                             Quantity: {orderProduct.quantity}
                           </div>
-                          <button className="buy-again-button button-primary">
+                          <button className="buy-again-button button-primary" onClick={async () => {
+                            await axios.post("/api/cart-items", {
+                              productId: orderProduct.product.id,
+                              quantity: orderProduct.quantity
+                            });
+                            await loadCart();
+                          }}>
                             <img className="buy-again-icon" src="images/icons/buy-again.png" />
                             <span className="buy-again-message">Add to Cart</span>
                           </button>
